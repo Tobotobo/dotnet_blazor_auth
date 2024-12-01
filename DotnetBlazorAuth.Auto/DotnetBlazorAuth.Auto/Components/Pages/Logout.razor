@@ -1,0 +1,41 @@
+@page "/logout"
+@using System.ComponentModel.DataAnnotations
+@using Microsoft.AspNetCore.Authentication
+@using Microsoft.AspNetCore.Authentication.Cookies
+@using System.Security.Claims
+@inject NavigationManager NavigationManager
+
+<h3>Logout</h3>
+
+<EditForm EditContext="EditContext" FormName="logout-form" OnValidSubmit="LogoutAsync">
+    <div>
+        <button type="submit">ログアウト</button>
+    </div>
+</EditForm>
+
+@code {
+    [CascadingParameter]
+    private HttpContext? HttpContext { get; set; }
+    private LogoutForm Model { get; set; } = default!;
+    private EditContext EditContext { get; set; } = default!;
+
+    protected override void OnInitialized()
+    {
+        Model ??= new();
+        EditContext = new(Model);
+    }
+
+    private async Task LogoutAsync(EditContext editContext)
+    {
+        _ = HttpContext ?? throw new InvalidOperationException("Static SSR で実行してください。");
+        await HttpContext.SignOutAsync();
+        NavigationManager.NavigateTo(
+                "login",
+                forceLoad: true
+            );
+    }
+
+    class LogoutForm
+    {
+    }
+}

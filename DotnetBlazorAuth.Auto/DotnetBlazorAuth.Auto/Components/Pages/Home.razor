@@ -1,0 +1,21 @@
+﻿@page "/"
+
+<PageTitle>Home</PageTitle>
+
+<h1>Hello, world!</h1>
+
+Welcome to your new app.
+
+<div>
+    <AuthorizeView>
+        @context.User.Identity!.Name さん、こんにちは。
+    </AuthorizeView>
+
+    <AuthorizeView Roles="Administrator">
+        あなたのロールは管理者です。
+    </AuthorizeView>
+
+    <AuthorizeView Roles="User">
+        あなたのロールは一般ユーザーです。
+    </AuthorizeView>
+</div>

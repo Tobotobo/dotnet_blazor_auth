@@ -1,0 +1,28 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "run Auto",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "run",
+                "--project",
+                "${workspaceFolder}/DotnetBlazorAuth.Auto/DotnetBlazorAuth.Auto"
+            ],
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "watch Auto",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "watch",
+                "run",
+                "--project",
+                "${workspaceFolder}/DotnetBlazorAuth.Auto/DotnetBlazorAuth.Auto"
+            ],
+            "problemMatcher": "$msCompile"
+        }
+    ]
+}

@@ -1,0 +1,95 @@
+@page "/login"
+@using System.ComponentModel.DataAnnotations
+@using Microsoft.AspNetCore.Authentication
+@using Microsoft.AspNetCore.Authentication.Cookies
+@using System.Security.Claims
+@inject NavigationManager NavigationManager
+
+<h3>Login</h3>
+
+<EditForm EditContext="EditContext" FormName="login-form" OnValidSubmit="LoginAsync">
+    <DataAnnotationsValidator />
+    <ValidationSummary Model="Model" />
+    <div>
+        <label>
+            ユーザー名:
+            <InputText @bind-Value="Model.UserName" />
+            <ValidationMessage For="() => Model.UserName" />
+        </label>
+    </div>
+    <div>
+        <label>
+            パスワード:
+            <InputText @bind-Value="Model.Password" type="password" />
+            <ValidationMessage For="() => Model.Password" />
+        </label>
+    </div>
+    <div>
+        <button type="submit">ログイン</button>
+    </div>
+</EditForm>
+
+@code {
+    [SupplyParameterFromForm]
+    private LoginForm Model { get; set; } = default!;
+    private EditContext EditContext { get; set; } = default!;
+    private ValidationMessageStore ValidationMessageStore { get; set; } = default!;
+
+    [CascadingParameter]
+    private HttpContext? HttpContext { get; set; }
+
+    protected override void OnInitialized()
+    {
+        Model ??= new();
+        EditContext = new(Model);
+        ValidationMessageStore = new(EditContext);
+    }
+
+    private async Task LoginAsync(EditContext editContext)
+    {
+        _ = HttpContext ?? throw new InvalidOperationException("Static SSR で実行してください。");
+
+        ClaimsIdentity? identity = null;
+        // 本来であればここでログイン処理をするような機能を呼び出す
+        // if (Model.UserName == "admin" && Model.Password == "P@ssw0rd!")
+        if (Model.UserName == "admin" && Model.Password == "admin") // Mod Tobotobo パスワード変更
+        {
+            identity = new(
+                [new Claim(ClaimTypes.Name, Model.UserName), new Claim(ClaimTypes.Role, "Administrator")],
+                CookieAuthenticationDefaults.AuthenticationScheme);
+        }
+        // else if (Model.UserName == "user" && Model.Password == "P@ssw0rd!")
+        else if (Model.UserName == "user" && Model.Password == "user") // Mod Tobotobo パスワード変更
+        {
+            identity = new(
+                [new Claim(ClaimTypes.Name, Model.UserName), new Claim(ClaimTypes.Role, "User")],
+                CookieAuthenticationDefaults.AuthenticationScheme);
+        }
+
+        if (identity != null)
+        {
+            // ログイン成功！
+            await HttpContext.SignInAsync(
+                CookieAuthenticationDefaults.AuthenticationScheme,
+                new ClaimsPrincipal(identity)
+            );
+            NavigationManager.NavigateTo(
+                "",
+                forceLoad: true
+            );
+        }
+        else
+        {
+            // ログイン失敗
+            ValidationMessageStore.Add(EditContext.Field(""), "ログインに失敗しました。");
+        }
+    }
+
+    class LoginForm
+    {
+        [Required(ErrorMessage = "ユーザー名を入力してください。")]
+        public string UserName { get; set; } = "";
+        [Required(ErrorMessage = "パスワードを入力してください。")]
+        public string Password { get; set; } = "";
+    }
+}
