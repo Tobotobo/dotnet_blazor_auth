@@ -27,13 +27,20 @@ dotnet new blazor --interactivity Auto -n DotnetBlazorAuth.Auto
 dotnet add DotnetBlazorAuth.Auto/DotnetBlazorAuth.Auto.Client package Microsoft.AspNetCore.Components.Authorization --version 8.0.11
 # dotnet add DotnetBlazorAuth.Auto/DotnetBlazorAuth.Auto reference DotnetBlazorAuth.Shared
 # dotnet add DotnetBlazorAuth.Auto/DotnetBlazorAuth.Auto.Client reference DotnetBlazorAuth.Shared
+
+dotnet new blazor --interactivity Server -n DotnetBlazorAuth.Server
 ```
 
 ### 実行
 ```sh
 dotnet run --project DotnetBlazorAuth.Auto/DotnetBlazorAuth.Auto
 dotnet watch --project DotnetBlazorAuth.Auto/DotnetBlazorAuth.Auto
+
+dotnet run --project DotnetBlazorAuth.Server
+dotnet watch --project DotnetBlazorAuth.Server
 ```
+
+
 
 ### Auto
 

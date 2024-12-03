@@ -1,7 +1,7 @@
 # DotnetBlazorAuth.Auto
 
 ## 概要
-`blazor --interactivity  Auto` で作成したプロジェクトに認証を追加する。 
+`blazor --interactivity Auto` で作成したプロジェクトに認証を追加する。 
 
 ### 参照
 .NET 8 の Blazor にオレオレ ログイン機能を付けよう  

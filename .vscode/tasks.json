@@ -23,6 +23,18 @@
                 "${workspaceFolder}/DotnetBlazorAuth.Auto/DotnetBlazorAuth.Auto"
             ],
             "problemMatcher": "$msCompile"
-        }
+        },
+        {
+            "label": "build Server",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "build",
+                "${workspaceFolder}/DotnetBlazorAuth.Server",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:NoSummary;ForceNoAlign"
+            ],
+            "problemMatcher": "$msCompile"
+        },
     ]
 }

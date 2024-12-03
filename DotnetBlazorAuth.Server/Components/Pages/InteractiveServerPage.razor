@@ -1,0 +1,20 @@
+@page "/interactiveserver"
+@rendermode InteractiveServer
+
+<h3>InteractiveServerPage</h3>
+
+<AuthorizeView>
+    <Authorized>
+        <p>こんにちは @context.User.Identity!.Name さん。InteractiveServer のページでのカウンターページを楽しんでください。</p>
+        <p>Current count: @currentCount</p>
+        <button @onclick="IncrementCount">インクリメント</button>
+    </Authorized>
+    <NotAuthorized>
+        認証されてませんよ？
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+    private int currentCount = 0;
+    private void IncrementCount() => currentCount++;
+}
